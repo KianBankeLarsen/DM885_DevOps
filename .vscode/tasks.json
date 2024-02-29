@@ -1,0 +1,20 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Deploy dev database",
+            "type": "shell",
+            "command": "docker compose -f database/docker-compose.yml up --build"
+        },
+        {
+            "label": "Deploy dev monitoring",
+            "type": "shell",
+            "command": "docker compose -f -f monitoring/docker-compose.yml up --build"
+        },
+        {
+            "label": "Deploy everything",
+            "type": "shell",
+            "command": "docker compose -f infrastructure/docker-compose.yml -f monitoring/docker-compose.yml up --build"
+        }
+  ]
+}

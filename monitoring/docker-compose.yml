@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    ports:
+    - 3000:3000
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:latest
+    expose:
+      - 9080
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  loki:
+    container_name: loki
+    image: grafana/loki:latest
+    expose:
+      - 3100
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - "../monitoring/prometheus.yml:/opt/prometheus/prometheus.yml"
+      - prometheus_data:/prometheus
+    command: "--config.file=/opt/prometheus/prometheus.yml"
+    networks:
+      - monitoring
+    ports:
+      - 9090:9090
+    expose:
+      - 9090
+    restart: unless-stopped
+
+volumes:
+  prometheus_data:
+
+networks:
+  monitoring:
+    external: true
