@@ -61,6 +61,17 @@ services:
     networks:
       - monitoring
 
+  postgres-exporter:
+    container_name: postgres-exporter
+    image: bitnami/postgres-exporter:latest
+    expose:
+      - 9187
+    env_file:
+      - ../ignored/pg-exporter-dev.env
+    networks:
+      - monitoring
+    restart: unless-stopped
+
   # cAdvisor service embedded in Kubelet binary
     # Redundant to deploy at the moment
 

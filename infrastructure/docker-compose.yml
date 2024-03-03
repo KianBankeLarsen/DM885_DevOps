@@ -7,7 +7,7 @@ services:
     shm_size: 128mb
     env_file:
       - ../ignored/database-dev.env
-      - ./postgresql-dev.env
+      - ./postgresql.env
     ports:
       - "5432:5432"
     volumes:
@@ -15,6 +15,7 @@ services:
       - ./relation.sql:/docker-entrypoint-initdb.d/relation.sql
     networks:
       - application
+      - monitoring
     restart: unless-stopped
 
   postgres_keycloak:
@@ -52,7 +53,7 @@ services:
       - 8080
     env_file:
       - ../ignored/keycloak-dev.env
-      - ./keycloak-dev.env
+      - ./keycloak.env
     command: start-dev
     networks:
       - keycloak
