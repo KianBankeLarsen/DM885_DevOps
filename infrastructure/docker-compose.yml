@@ -50,7 +50,6 @@ services:
       - 3200:8080
     expose:
       - 8080
-    restart: unless-stopped
     env_file:
       - ../ignored/keycloak-dev.env
       - ./keycloak-dev.env
@@ -58,6 +57,7 @@ services:
     networks:
       - keycloak
       - monitoring
+    restart: unless-stopped
 
 networks:
   application:
