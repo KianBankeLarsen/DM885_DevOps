@@ -6,13 +6,22 @@ services:
     image: grafana/grafana:latest
     ports:
     - 3000:3000
+    volumes:
+      - ../monitoring/grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ../monitoring/dashboards:/etc/grafana/provisioning/dashboards/
     networks:
       - monitoring
     restart: unless-stopped
 
   promtail:
+    depends_on:
+      - loki
     container_name: promtail
     image: grafana/promtail:latest
+    volumes:
+      - ../monitoring/promtail-config.yml:/etc/promtail/promtail-config.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --config.file=/etc/promtail/promtail-config.yml
     expose:
       - 9080
     networks:
@@ -22,6 +31,8 @@ services:
   loki:
     container_name: loki
     image: grafana/loki:latest
+    volumes:
+      - loki_data:/tmp/loki 
     expose:
       - 3100
     networks:
@@ -37,8 +48,6 @@ services:
     command: "--config.file=/opt/prometheus/prometheus.yml"
     networks:
       - monitoring
-    ports:
-      - 9090:9090
     expose:
       - 9090
     restart: unless-stopped
@@ -77,6 +86,7 @@ services:
 
 volumes:
   prometheus_data:
+  loki_data:
 
 networks:
   monitoring:
