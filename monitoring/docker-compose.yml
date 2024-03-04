@@ -1,0 +1,93 @@
+version: '3.9'
+
+services:
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    ports:
+    - 3000:3000
+    volumes:
+      - ../monitoring/grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ../monitoring/dashboards:/etc/grafana/provisioning/dashboards/
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  promtail:
+    depends_on:
+      - loki
+    container_name: promtail
+    image: grafana/promtail:latest
+    volumes:
+      - ../monitoring/promtail-config.yml:/etc/promtail/promtail-config.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --config.file=/etc/promtail/promtail-config.yml
+    expose:
+      - 9080
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  loki:
+    container_name: loki
+    image: grafana/loki:latest
+    volumes:
+      - loki_data:/tmp/loki 
+    expose:
+      - 3100
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    volumes:
+      - "../monitoring/prometheus.yml:/opt/prometheus/prometheus.yml"
+      - prometheus_data:/prometheus
+    command: "--config.file=/opt/prometheus/prometheus.yml"
+    networks:
+      - monitoring
+    expose:
+      - 9090
+    restart: unless-stopped
+
+  node-exporter:
+    container_name: node-exporter
+    image: prom/node-exporter:latest
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.rootfs=/rootfs"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+    expose:
+      - 9100
+    networks:
+      - monitoring
+
+  postgres-exporter:
+    container_name: postgres-exporter
+    image: bitnami/postgres-exporter:latest
+    expose:
+      - 9187
+    env_file:
+      - ../ignored/pg-exporter-dev.env
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  # cAdvisor service embedded in Kubelet binary
+    # Redundant to deploy at the moment
+
+volumes:
+  prometheus_data:
+  loki_data:
+
+networks:
+  monitoring:
+    external: true

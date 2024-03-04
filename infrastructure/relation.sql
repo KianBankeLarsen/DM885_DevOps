@@ -1,4 +1,4 @@
-CREATE TABLE assignment (
+CREATE TABLE IF NOT EXISTS assignment (
   id int,
   startDate timestamp,
   endDate timestamp,
@@ -7,7 +7,7 @@ CREATE TABLE assignment (
   PRIMARY KEY(id)
 );
 
-CREATE TABLE assignmentConfig (
+CREATE TABLE IF NOT EXISTS assignmentConfig (
   id int,
   maxRam int,
   maxCPU float,
@@ -15,7 +15,7 @@ CREATE TABLE assignmentConfig (
   PRIMARY KEY(id)
 );
 
-CREATE TABLE student (
+CREATE TABLE IF NOT EXISTS student (
   id int,
   name VARCHAR(64),
   password VARCHAR(64),
@@ -23,7 +23,7 @@ CREATE TABLE student (
   PRIMARY KEY(id)
 );
 
-CREATE TABLE admin (
+CREATE TABLE IF NOT EXISTS admin (
   id int,
   name VARCHAR(64),
   password VARCHAR(64),
@@ -31,7 +31,7 @@ CREATE TABLE admin (
   PRIMARY KEY(id)
 );
 
-CREATE TABLE studentToAssignment (
+CREATE TABLE IF NOT EXISTS studentToAssignment (
   assignment int,
   student int,
   submission int,
@@ -40,7 +40,7 @@ CREATE TABLE studentToAssignment (
   FOREIGN KEY(submission) REFERENCES submission(id)
 );
 
-CREATE TABLE submission (
+CREATE TABLE IF NOT EXISTS submission (
   id int,
   grade VARCHAR(64),
   status VARCHAR(64),
@@ -50,10 +50,9 @@ CREATE TABLE submission (
   PRIMARY KEY(id)
 );
 
-CREATE TABLE teacherTo (
+CREATE TABLE IF NOT EXISTS teacherTo (
   assignment int,
   student int,
   FOREIGN KEY(assignment) REFERENCES assignment(id),
   FOREIGN KEY(student) REFERENCES student(id)
 );
-
