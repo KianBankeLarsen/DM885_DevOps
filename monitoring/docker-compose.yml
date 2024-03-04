@@ -11,6 +11,8 @@ services:
       - ../monitoring/dashboards:/etc/grafana/provisioning/dashboards/
     networks:
       - monitoring
+    env_file:
+      - ../ignored/database-dev.env
     restart: unless-stopped
 
   promtail:

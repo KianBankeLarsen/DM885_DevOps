@@ -10,3 +10,19 @@ datasources:
     type: prometheus
     access: proxy
     url: http://prometheus:9090
+
+  - name: Postgres
+    type: postgres
+    url: postgres_application:5432
+    user: $POSTGRES_USER
+    secureJsonData:
+      password: $POSTGRES_PASSWORD
+    jsonData:
+      database: testdb
+      sslmode: 'disable' # disable/require/verify-ca/verify-full
+      maxOpenConns: 100 # Grafana v5.4+
+      maxIdleConns: 100 # Grafana v5.4+
+      maxIdleConnsAuto: true # Grafana v9.5.1+
+      connMaxLifetime: 14400 # Grafana v5.4+
+      postgresVersion: 1600 # 903=9.3, 904=9.4, 905=9.5, 906=9.6, 1000=10
+      timescaledb: false
