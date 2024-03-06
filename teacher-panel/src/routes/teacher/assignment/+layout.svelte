@@ -1,7 +1,7 @@
 <nav>
+    <a href="/teacher/assignment">List Assignments</a>
     <a href="/teacher/assignment/create">Create Assignment</a>
 </nav>
-<h1>Assignments</h1>
 <slot></slot>
 <style>
     nav {

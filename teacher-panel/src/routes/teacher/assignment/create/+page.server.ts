@@ -11,3 +11,23 @@ export const actions = {
 
 	},
 } satisfies Actions;
+
+import type { PageLoad } from './$types';
+export const load: PageLoad = () => {
+	return {
+	    assignmentConfigs: [
+            {
+                name: `Config1`,
+                content: `Some configurations....`,
+            },
+            {
+                name: `Config2`,
+                content: `Some configurations....`,
+            },
+            {
+                name: `Config3`,
+                content: `Some configurations....`,
+            },
+       ]
+	};
+};
