@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div style="text-align: center;">
+        <h1 style="display: inline-block;">Welcome to the home page.</h1>
+    </div>
+    
+    <p style="text-align: center;">Click the button below to submit a file</p>
+    <div style="text-align: center;">
+        <a class="btn btn-primary" href="/submit" role="button">Submit</a>
+
+    <div style="text-align: center;">
+        <h2 style="display: inline-block;">Here are the status of your assignements.</h2>
+    </div>
+
+    <div class="list-group">
+        {% for assignment, status in assignments %}
+            <a href="#" class="list-group-item list-group-item-action">
+                {{ assignment }} 
+                <span style="height: 10px; width: 10px; background-color: 
+                    {% if status == 0 %}grey
+                    {% elif status == 1 %}blue
+                    {% elif status == 2 %}orange
+                    {% elif status == 3 %}green
+                    {% elif status == 4 %}red
+                    {% endif %}; border-radius: 50%; display: inline-block;"></span>
+            </a>
+        {% endfor %}
+    </div>
+ 
+{% endblock %}
