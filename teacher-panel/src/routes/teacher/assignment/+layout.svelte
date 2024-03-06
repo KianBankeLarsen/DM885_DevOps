@@ -1,12 +1,8 @@
 <nav>
-    <a href="/">Home</a>
-    <a href="/teacher">Teacher's panel</a>
-    <a href="/about/hello-world">Hello World!</a>
-    <a href="/teacher/assignment">Assignment</a>
+    <a href="/teacher/assignment/create">Create Assignment</a>
 </nav>
-
+<h1>Assignments</h1>
 <slot></slot>
-
 <style>
     nav {
         display: flex;
