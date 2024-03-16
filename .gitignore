@@ -1,5 +1,3 @@
 .vscode/*
 !.vscode/tasks.json
-
-ignored/*
-!ignored/.gitkeep
+secrets

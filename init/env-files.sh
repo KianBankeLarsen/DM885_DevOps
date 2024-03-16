@@ -1,0 +1,23 @@
+#!/bin/bash
+
+SECRETS_FOLDER=secrets
+
+if [ -d "$SECRETS_FOLDER" ]; then rm -Rf $SECRETS_FOLDER; fi
+
+mkdir -p $SECRETS_FOLDER
+
+DATABASE_DEV_ENV=$SECRETS_FOLDER/database-dev.env
+KEYCLOAK_DEV_ENV=$SECRETS_FOLDER/keycloak-dev.env
+PG_EXPORTER_DEV_ENV=$SECRETS_FOLDER/pg-exporter-dev.env
+
+echo POSTGRES_USER=admin >> $DATABASE_DEV_ENV
+echo POSTGRES_PASSWORD=admin >> $DATABASE_DEV_ENV
+
+echo KEYCLOAK_ADMIN=admin >> $KEYCLOAK_DEV_ENV
+echo KEYCLOAK_ADMIN_PASSWORD=admin >> $KEYCLOAK_DEV_ENV
+echo KC_DB_USERNAME=admin >> $KEYCLOAK_DEV_ENV
+echo KC_DB_PASSWORD=admin >> $KEYCLOAK_DEV_ENV
+
+CONNECTION_STRING=postgresql://admin:admin@postgres_application:5432/postgres?sslmode=disable
+echo DATA_SOURCE_NAME= $CONNECTION_STRING >> $PG_EXPORTER_DEV_ENV
+

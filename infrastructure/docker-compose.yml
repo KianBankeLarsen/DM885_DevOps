@@ -6,8 +6,8 @@ services:
     image: postgres:latest
     shm_size: 128mb
     env_file:
-      - ../ignored/database-dev.env
-      - ./postgresql.env
+      - ../secrets/database-dev.env
+      - postgresql.env
     ports:
       - "5432:5432"
     volumes:
@@ -23,8 +23,8 @@ services:
     image: postgres:latest
     shm_size: 128mb
     env_file:
-      - ../ignored/database-dev.env
-      - ./postgresql.env
+      - ../secrets/database-dev.env
+      - postgresql.env
     expose:
       - 5432
     volumes:
@@ -53,8 +53,8 @@ services:
     expose:
       - 8080
     env_file:
-      - ../ignored/keycloak-dev.env
-      - ./keycloak.env
+      - ../secrets/keycloak-dev.env
+      - keycloak.env
     command: start-dev
     networks:
       - keycloak
@@ -65,7 +65,7 @@ networks:
   application:
   keycloak:
   monitoring:
-    external: true
+    name: monitoring
 
 volumes:
   keycloak_db_volume:

@@ -2,19 +2,30 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Deploy dev database",
+            "label": "Initialize [DEV]",
+            "group": "build",
             "type": "shell",
-            "command": "docker compose -f database/docker-compose.yml up --build"
+            "command": "sh init/env-files.sh"
         },
         {
-            "label": "Deploy dev monitoring",
+            "label": "Deploy infrastructure [DEV]",
+            "group": "build",
             "type": "shell",
-            "command": "docker compose -f -f monitoring/docker-compose.yml up --build"
+            "dependsOn": ["Initialize [DEV]"],
+            "command": "docker compose -f infrastructure/docker-compose.yml up -d --build"
         },
         {
-            "label": "Deploy everything",
+            "label": "Deploy monitoring [DEV]",
+            "group": "build",
             "type": "shell",
-            "command": "docker compose -f infrastructure/docker-compose.yml -f monitoring/docker-compose.yml up --build"
+            "dependsOn": ["Initialize [DEV]"],
+            "command": "docker compose -f monitoring/docker-compose.yml up -d --build"
+        },
+        {
+            "label": "Deploy everything [DEV]",
+            "group": "build",
+            "dependsOrder": "sequence",
+            "dependsOn": ["Deploy infrastructure [DEV]", "Deploy monitoring [DEV]"]
         }
   ]
 }
