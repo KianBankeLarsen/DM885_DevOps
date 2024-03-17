@@ -13,6 +13,7 @@ services:
       - monitoring
     env_file:
       - ../secrets/database-dev.env
+      - ./grafana.env
     restart: unless-stopped
 
   promtail:
