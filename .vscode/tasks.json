@@ -26,6 +26,11 @@
             "group": "build",
             "dependsOrder": "sequence",
             "dependsOn": ["Deploy infrastructure [DEV]", "Deploy monitoring [DEV]"]
+        },
+        {
+            "label": "Prune [Docker]",
+            "type": "shell",
+            "command": "docker system prune -a && docker volume prune -a"
         }
   ]
 }

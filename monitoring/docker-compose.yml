@@ -14,6 +14,7 @@ services:
     env_file:
       - ../secrets/database-dev.env
       - ./grafana.env
+      - ../secrets/grafana-dev.env
     restart: unless-stopped
 
   promtail:
