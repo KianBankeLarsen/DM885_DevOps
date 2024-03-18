@@ -37,7 +37,7 @@ services:
     container_name: adminer
     image: adminer
     ports:
-      - 8080:8080
+      - 3300:8080
     networks:
       - application
       - keycloak

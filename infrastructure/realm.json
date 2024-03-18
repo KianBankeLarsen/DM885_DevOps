@@ -288,6 +288,16 @@
           "attributes": {}
         }
       ],
+      "application": [
+        {
+          "id": "ce49fe8b-5216-4952-a524-96ebbaaef9c3",
+          "name": "uma_protection",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "b7d9bc87-d876-4d19-809a-d0aa8034bb23",
+          "attributes": {}
+        }
+      ],
       "grafana": [
         {
           "id": "56b8243d-c6da-427c-b7b6-063feae13fb4",
@@ -472,6 +482,23 @@
   "webAuthnPolicyPasswordlessExtraOrigins": [],
   "users": [
     {
+      "id": "79d0ffe6-6c59-4f9f-95ee-5042e8bc816e",
+      "username": "service-account-application",
+      "emailVerified": false,
+      "createdTimestamp": 1710768014952,
+      "enabled": true,
+      "totp": false,
+      "serviceAccountClientId": "application",
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["default-roles-dm885"],
+      "clientRoles": {
+        "application": ["uma_protection"]
+      },
+      "notBefore": 0,
+      "groups": []
+    },
+    {
       "id": "a65ee6eb-c777-43c8-aea9-46c0795e21f2",
       "username": "service-account-grafana",
       "emailVerified": false,
@@ -640,6 +667,144 @@
       ]
     },
     {
+      "id": "b7d9bc87-d876-4d19-809a-d0aa8034bb23",
+      "clientId": "application",
+      "name": "Application",
+      "description": "",
+      "rootUrl": "http://localhost:8080",
+      "adminUrl": "http://localhost:8080",
+      "baseUrl": "",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "${CUSTOM_KC_APPLICATION_REALM_SECRET}",
+      "redirectUris": ["http://localhost:8080/*"],
+      "webOrigins": ["http://localhost:8080"],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "publicClient": false,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "oidc.ciba.grant.enabled": "false",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "client.secret.creation.time": "1710768014",
+        "backchannel.logout.session.required": "true",
+        "backchannel.logout.revoke.offline.tokens": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "674356be-9fa0-4b20-a625-aecbcc83f36d",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientAddress",
+            "introspection.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "8a8fc164-3231-4477-9bba-9eae1a28a7b6",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "client_id",
+            "introspection.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "client_id",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "86c33e79-d143-4bc0-8e79-e4786dc5bbb3",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientHost",
+            "introspection.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        }
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ],
+      "authorizationSettings": {
+        "allowRemoteResourceManagement": true,
+        "policyEnforcementMode": "ENFORCING",
+        "resources": [
+          {
+            "name": "Default Resource",
+            "type": "urn:application:resources:default",
+            "ownerManagedAccess": false,
+            "attributes": {},
+            "_id": "349ec3fd-18b4-4fee-b1d6-96c55877e26f",
+            "uris": ["/*"]
+          }
+        ],
+        "policies": [
+          {
+            "id": "d520a8a3-0098-45fe-9ee4-caee54f82a1f",
+            "name": "Default Policy",
+            "description": "A policy that grants access only for users within this realm",
+            "type": "js",
+            "logic": "POSITIVE",
+            "decisionStrategy": "AFFIRMATIVE",
+            "config": {
+              "code": "// by default, grants any permission associated with this policy\n$evaluation.grant();\n"
+            }
+          },
+          {
+            "id": "2712768c-374f-4089-a12f-49cdf81367cc",
+            "name": "Default Permission",
+            "description": "A permission that applies to the default resource type",
+            "type": "resource",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "defaultResourceType": "urn:application:resources:default",
+              "applyPolicies": "[\"Default Policy\"]"
+            }
+          }
+        ],
+        "scopes": [],
+        "decisionStrategy": "UNANIMOUS"
+      }
+    },
+    {
       "id": "799475ab-3d66-4264-a140-7c3822267e83",
       "clientId": "broker",
       "name": "${client_broker}",
@@ -691,7 +856,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "${CUSTOM_KC_REALM_SECRET}",
+      "secret": "${CUSTOM_KC_GRAFANA_REALM_SECRET}",
       "redirectUris": ["http://localhost:3000/*"],
       "webOrigins": ["http://localhost:3000"],
       "notBefore": 0,
@@ -1530,14 +1695,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-user-attribute-mapper",
             "saml-user-property-mapper",
+            "saml-user-attribute-mapper",
+            "oidc-sha256-pairwise-sub-mapper",
             "oidc-address-mapper",
-            "oidc-usermodel-property-mapper",
             "oidc-full-name-mapper",
-            "oidc-usermodel-attribute-mapper",
+            "oidc-usermodel-property-mapper",
             "saml-role-list-mapper",
-            "oidc-sha256-pairwise-sub-mapper"
+            "oidc-usermodel-attribute-mapper"
           ]
         }
       },
@@ -1560,13 +1725,13 @@
         "config": {
           "allowed-protocol-mapper-types": [
             "oidc-address-mapper",
-            "saml-user-property-mapper",
             "oidc-sha256-pairwise-sub-mapper",
-            "oidc-usermodel-property-mapper",
+            "saml-role-list-mapper",
             "saml-user-attribute-mapper",
+            "saml-user-property-mapper",
             "oidc-full-name-mapper",
             "oidc-usermodel-attribute-mapper",
-            "saml-role-list-mapper"
+            "oidc-usermodel-property-mapper"
           ]
         }
       },
